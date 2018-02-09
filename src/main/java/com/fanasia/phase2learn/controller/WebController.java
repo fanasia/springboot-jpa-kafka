@@ -1,59 +1,76 @@
 package com.fanasia.phase2learn.controller;
 
 import com.fanasia.phase2learn.model.Customer;
-import com.fanasia.phase2learn.repo.CustomerRepository;
+import com.fanasia.phase2learn.request.RegisterCustomerRequest;
+import com.fanasia.phase2learn.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
-import java.util.Arrays;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/customer")
 public class WebController {
 
     @Autowired
-    CustomerRepository repository;
+    private CustomerService customerService;
 
-    @RequestMapping("/save")
-    public String process() {
-        //save a single customer
-        repository.save(new Customer("Jack", "Smith"));
-
-        //save a list of customer
-        repository.save(Arrays.asList(new Customer("Adam", "Johnson"), new Customer("Kim", "Possible")));
-
-        return "Done";
+    @RequestMapping(
+           method = RequestMethod.POST,
+           produces = MediaType.APPLICATION_JSON_VALUE,
+           consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Customer registerCustomer(@Valid @RequestBody RegisterCustomerRequest request) {
+        return customerService.register(request.getFirstName(), request.getLastName());
     }
 
-    @RequestMapping("/findall")
-    public String findAll() {
-        String result = "";
-
-        for(Customer cust : repository.findAll()) {
-            result += cust.toString() + "<br>";
-        }
-
-        return result;
+    @RequestMapping(
+            value = "/id/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Customer getCustomerById(@PathVariable long id) {
+        return customerService.findCustomerById(id);
     }
 
-    @RequestMapping("/findbyid")
-    public String findById(@RequestParam("id") long id) {
-        String result = "";
-        result = repository.findOne(id).toString();
-        return result;
+    @RequestMapping(
+            value = "/lastname/{lastname}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Customer> getCustomerByLastName(@PathVariable String lastname) {
+        return customerService.findCustomerByLastName(lastname);
     }
 
-    @RequestMapping("/findbylastname")
-    public String findByLastName(@RequestParam("lastname") String lastName) {
-        String result = "";
-
-        for(Customer cust : repository.findByLastName(lastName)) {
-            result += cust.toString() + "<br>";
-        }
-
-        return result;
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Customer> getAllCustomers() {
+        return customerService.findAllCustomers();
     }
 
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public boolean deleteCustomer(@PathVariable long id) {
+        return customerService.deleteCustomer(id);
+    }
 
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Customer updateCustomer(@PathVariable long id, @Valid @RequestBody RegisterCustomerRequest request) {
+        Customer customer = new Customer(request.getFirstName(), request.getLastName());
+        customer.setId(id);
+
+        return customerService.editCustomer(customer);
+    }
 }

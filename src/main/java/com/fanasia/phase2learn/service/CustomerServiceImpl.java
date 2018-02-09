@@ -23,17 +23,17 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer getCustomerById(long id) {
+    public Customer findCustomerById(long id) {
         return repository.findOne(id);
     }
 
     @Override
-    public List<Customer> getCustomerByLastName(String lastName) {
+    public List<Customer> findCustomerByLastName(String lastName) {
         return repository.findByLastName(lastName);
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> findAllCustomers() {
         return repository.findAll();
     }
 

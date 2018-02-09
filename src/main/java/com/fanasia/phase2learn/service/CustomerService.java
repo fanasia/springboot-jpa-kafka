@@ -8,9 +8,9 @@ import java.util.List;
 public interface CustomerService {
 
     Customer register(String firstName, String lastName);
-    Customer getCustomerById(long id);
-    List<Customer> getCustomerByLastName(String lastName);
-    List<Customer> getAllCustomers();
+    Customer findCustomerById(long id);
+    List<Customer> findCustomerByLastName(String lastName);
+    List<Customer> findAllCustomers();
     boolean deleteCustomer(long id);
     Customer editCustomer(Customer customer);
 
