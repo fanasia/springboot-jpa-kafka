@@ -2,6 +2,8 @@ package com.fanasia.phase2learn.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -11,6 +13,7 @@ public class Customer implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "customer_id")
     private long id;
 
     @Column(name = "firstname")
@@ -19,8 +22,10 @@ public class Customer implements Serializable{
     @Column(name = "lastname")
     private String lastName;
 
-    protected Customer() {
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<CustomerLog> customerLogs = new ArrayList<>();
 
+    public Customer() {
     }
 
     public Customer(String firstName, String lastName) {
@@ -50,6 +55,14 @@ public class Customer implements Serializable{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<CustomerLog> getCustomerLogs() {
+        return customerLogs;
+    }
+
+    public void setCustomerLogs(List<CustomerLog> customerLogs) {
+        this.customerLogs = customerLogs;
     }
 
     @Override
