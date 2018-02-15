@@ -23,7 +23,7 @@ public class CustomerController {
            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public Customer registerCustomer(@Valid @RequestBody RegisterCustomerRequest request) {
-        return customerService.register(request.getFirstName(), request.getLastName());
+        return customerService.register(request.getFirstName(), request.getLastName(), request.getLogs());
     }
 
     @RequestMapping(
@@ -31,7 +31,7 @@ public class CustomerController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Customer getCustomerById(@PathVariable long id) {
+    public Customer getCustomerById(@PathVariable String id) {
         return customerService.findCustomerById(id);
     }
 
@@ -57,7 +57,7 @@ public class CustomerController {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public boolean deleteCustomer(@PathVariable long id) {
+    public boolean deleteCustomer(@PathVariable String id) {
         return customerService.deleteCustomer(id);
     }
 
@@ -67,7 +67,7 @@ public class CustomerController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Customer updateCustomer(@PathVariable long id, @Valid @RequestBody RegisterCustomerRequest request) {
+    public Customer updateCustomer(@PathVariable String id, @Valid @RequestBody RegisterCustomerRequest request) {
         Customer customer = new Customer(request.getFirstName(), request.getLastName());
         customer.setId(id);
 

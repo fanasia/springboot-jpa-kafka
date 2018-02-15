@@ -1,5 +1,8 @@
 package com.fanasia.phase2learn.model;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 
 
@@ -8,9 +11,8 @@ import javax.persistence.*;
 public class CustomerLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "log_id")
-    private long id;
+    @Column(name = "log_id", updatable = false, nullable = false)
+    private String id;
 
     @Column(name = "log")
     private String log;
@@ -22,11 +24,11 @@ public class CustomerLog {
     public CustomerLog() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

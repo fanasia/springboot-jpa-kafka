@@ -4,11 +4,14 @@ import com.fanasia.phase2learn.model.CustomerLog;
 
 import java.util.List;
 
+
+
+
 public interface CustomerLogService {
 
-    CustomerLog addLog(String log, long customerId);
-    CustomerLog getLog(long id, long customerId);
-    List<CustomerLog> getAllLogs(long customerId);
-    boolean deleteLog(long id, long customerId);
+    CustomerLog addLog(String log, String customerId);
+    CustomerLog getLog(String id, String customerId);
+    List<CustomerLog> getAllLogs(String customerId);
+    boolean deleteLog(String id, String customerId);
     CustomerLog editLog(CustomerLog logs);
 }

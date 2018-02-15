@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CustomerLogRepository extends JpaRepository<CustomerLog, Long> {
+public interface CustomerLogRepository extends JpaRepository<CustomerLog, String> {
 
-    List<CustomerLog> findAllByCustomerId(long customerId);
-    CustomerLog findLogByIdAndCustomerId(long id, long customerId);
-    boolean existsLogByIdAndCustomerId(long id, long customerId);
-    void deleteLogByIdAndCustomerId(long id, long customerId);
+    List<CustomerLog> findAllByCustomerId(String customerId);
+    CustomerLog findLogByIdAndCustomerId(String id, String customerId);
+    boolean existsLogByIdAndCustomerId(String id, String customerId);
+    void deleteLogByIdAndCustomerId(String id, String customerId);
 }

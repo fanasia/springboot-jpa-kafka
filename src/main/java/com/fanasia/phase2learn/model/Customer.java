@@ -1,5 +1,8 @@
 package com.fanasia.phase2learn.model;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,9 +15,8 @@ public class Customer implements Serializable{
     private static final long serialVersionUID = -3009157732242241606L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "customer_id")
-    private long id;
+    @Column(name = "customer_id", updatable = false, nullable = false)
+    private String id;
 
     @Column(name = "firstname")
     private String firstName;
@@ -33,11 +35,11 @@ public class Customer implements Serializable{
         this.lastName = lastName;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,6 +65,15 @@ public class Customer implements Serializable{
 
     public void setCustomerLogs(List<CustomerLog> customerLogs) {
         this.customerLogs = customerLogs;
+    }
+
+    public void addLog(CustomerLog customerLog) {
+        this.customerLogs.add(customerLog);
+    }
+
+    public CustomerLog removeLog(String id) {
+        int index = this.customerLogs.indexOf(id);
+        return index != -1 ? customerLogs.remove(index) : null;
     }
 
     @Override

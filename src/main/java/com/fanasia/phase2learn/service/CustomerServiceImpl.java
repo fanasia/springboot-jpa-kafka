@@ -1,12 +1,14 @@
 package com.fanasia.phase2learn.service;
 
 import com.fanasia.phase2learn.model.Customer;
+import com.fanasia.phase2learn.model.CustomerLog;
 import com.fanasia.phase2learn.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -16,14 +18,23 @@ public class CustomerServiceImpl implements CustomerService{
     CustomerRepository repository;
 
     @Override
-    public Customer register(String firstName, String lastName) {
-        Customer customer = new Customer(firstName, lastName);
+    public Customer register(String firstName, String lastName, String log) {
+        CustomerLog logs = new CustomerLog();
+        Customer customer = new Customer();
+
+        logs.setId(UUID.randomUUID().toString());
+        logs.setLog(log);
+
+        customer.setId(UUID.randomUUID().toString());
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.addLog(logs);
 
         return repository.save(customer);
     }
 
     @Override
-    public Customer findCustomerById(long id) {
+    public Customer findCustomerById(String id) {
         return repository.findOne(id);
     }
 
@@ -38,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public boolean deleteCustomer(long id) {
+    public boolean deleteCustomer(String id) {
         boolean isSuccess = true;
 
         try {

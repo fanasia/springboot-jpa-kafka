@@ -23,7 +23,7 @@ public class CustomerLogController
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public CustomerLog register(@PathVariable long customerId, @Valid @RequestBody RegisterLogRequest request){
+    public CustomerLog register(@PathVariable String customerId, @Valid @RequestBody RegisterLogRequest request){
         return customerLogService.addLog(request.getLog(), customerId);
     }
 
@@ -32,7 +32,7 @@ public class CustomerLogController
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CustomerLog getLog(@PathVariable long customerId, @PathVariable long id) {
+    public CustomerLog getLog(@PathVariable String customerId, @PathVariable String id) {
         return customerLogService.getLog(id, customerId);
     }
 
@@ -40,7 +40,7 @@ public class CustomerLogController
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<CustomerLog> getAllLogs(@PathVariable long customerId) {
+    public List<CustomerLog> getAllLogs(@PathVariable String customerId) {
         return customerLogService.getAllLogs(customerId);
     }
 
@@ -49,7 +49,7 @@ public class CustomerLogController
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public boolean deleteLog(@PathVariable long customerId, @PathVariable long id) {
+    public boolean deleteLog(@PathVariable String customerId, @PathVariable String id) {
         return customerLogService.deleteLog(id, customerId);
     }
 
@@ -59,7 +59,7 @@ public class CustomerLogController
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public CustomerLog editLog(@PathVariable long customerId, @PathVariable long id, @RequestBody RegisterLogRequest request) {
+    public CustomerLog editLog(@PathVariable String customerId, @PathVariable String id, @RequestBody RegisterLogRequest request) {
         Customer customer = new Customer();
         CustomerLog logs = new CustomerLog();
 

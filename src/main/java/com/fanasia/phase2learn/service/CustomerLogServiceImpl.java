@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -17,12 +18,13 @@ public class CustomerLogServiceImpl implements CustomerLogService{
     CustomerLogRepository customerLogRepository;
 
     @Override
-    public CustomerLog addLog(String log, long customerId) {
+    public CustomerLog addLog(String log, String customerId) {
         Customer customer = new Customer();
         CustomerLog logs = new CustomerLog();
 
         customer.setId(customerId);
 
+        logs.setId(UUID.randomUUID().toString());
         logs.setLog(log);
         logs.setCustomer(customer);
 
@@ -30,17 +32,17 @@ public class CustomerLogServiceImpl implements CustomerLogService{
     }
 
     @Override
-    public CustomerLog getLog(long id, long customerId) {
+    public CustomerLog getLog(String id, String customerId) {
         return customerLogRepository.findLogByIdAndCustomerId(id, customerId);
     }
 
     @Override
-    public List<CustomerLog> getAllLogs(long customerId) {
+    public List<CustomerLog> getAllLogs(String customerId) {
         return customerLogRepository.findAllByCustomerId(customerId);
     }
 
     @Override
-    public boolean deleteLog(long id, long customerId) {
+    public boolean deleteLog(String id, String customerId) {
         boolean isSuccess = true;
 
         try {
